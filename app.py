@@ -6,6 +6,8 @@ import codecs
 import streamlit.components.v1 as components
 import pickle as pkl
 
+st.set_page_config(layout="wide")
+
 def st_display_sweetviz(report_html,width=1460,height=1000):
     report_file = codecs.open(report_html,'r')
     page = report_file.read()
