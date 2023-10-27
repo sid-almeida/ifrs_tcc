@@ -5,13 +5,10 @@ import sweetviz as sv
 import codecs
 import streamlit.components.v1 as components
 import pickle as pkl
+import pygwalker as pyg
+
 
 st.set_page_config(layout="wide")
-
-def st_display_sweetviz(report_html,width=1460,height=1000):
-    report_file = codecs.open(report_html,'r')
-    page = report_file.read()
-    components.html(page,width=width,height=height,scrolling=True)
 
 with st.sidebar:
     st.image("https://github.com/sid-almeida/ifrs_tcc/blob/main/Brainize%20Tech(1).png?raw=true", width=250)
@@ -55,13 +52,9 @@ if choice == "Análise":
     if os.path.exists("data.csv"):
         dataframe = pd.read_csv("data.csv")
         if dataframe is not None:
-            report = sv.analyze(dataframe)
-            # st.write(report.show_html(), unsafe_allow_html=True)
-            st.success("Análise realizada com sucesso!")
-            report.show_html(open_browser=False)
-            with open("SWEETVIZ_REPORT.html", "w") as html_file:
-                html_file.write(report._page_html)
-            st_display_sweetviz("SWEETVIZ_REPORT.html")
+            # pygwalker in modo clear
+            pyg_html = pyg.to_html(dataframe)
+            components.html(pyg_html, height=1500, width=1000, scrolling=True)
             st.write('---')
         else:
             st.write('---')
